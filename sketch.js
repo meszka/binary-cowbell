@@ -1,14 +1,25 @@
 let drum
 let counter = 0
+let drums = []
+
+function makeDrum() {
+  return loadSound('808-Cowbell1.wav')
+}
 
 function preload() {
-  drum = loadSound('808-Cowbell1.wav')
+  drums = new Array(20)
+  for (let i = 0; i < 20; i++) {
+    drums[i] = makeDrum()
+  }
 }
 
 function setup() { 
   frameRate(5)
   createCanvas(400, 400)
   textSize(32)
+  for (let i = 0; i < 20; i++) {
+    drums[i].rate(2 * (2/3)**i)
+  }
 }
 
 function getDrumNr(counter) {
@@ -22,8 +33,7 @@ function draw() {
   const drumNr = getDrumNr(counter)
   console.log("play drum " + drumNr)
   if (drumNr >= 0) {
-    drum.rate(4/(drumNr + 1))
-    drum.play()
+    drums[drumNr].play()
   }
   clear()
   text(counter.toString(2), 0, 30)
